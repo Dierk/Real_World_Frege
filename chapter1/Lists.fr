@@ -1,0 +1,16 @@
+module realworld.chapter1.Lists where
+
+main _ = do
+    println [1, 2, 3]
+    -- println ( [ ] ) -- unknown context: Show <3298 a>
+    println ["foo", "bar", "baz", "quux", "fnord", "xyzzy"]
+    -- println [true, false, "testing"] -- as expected, not allowed
+    println [1..10]
+    -- println [1.0, 1.25..2.0] -- Double is not an instance of Enum
+    println [ 1, 4 .. 15]
+    println [10, 9 ..  1]
+
+    println([3,1,3] ++ [3,7])
+    println([] ++ [false, true] ++ [true])
+    println(1 : [2,3])
+    println(1 : [])
