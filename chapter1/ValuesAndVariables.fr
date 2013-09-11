@@ -1,0 +1,13 @@
+module realworld.chapter1.ValuesAndVariables where
+
+import frege.prelude.Math(pi, exp, **)
+
+main _ = do
+    println pi
+    -- println ( e ) -- as expected cannot resolve
+    let e = exp 1
+    println e
+    println ((e ** pi) - pi) -- as in the book
+    println ( e ** pi  - pi) -- but ** has higher precedence anyway
+
+

@@ -1,15 +1,15 @@
 module realworld.chapter1.Arithmetic where
 
--- a replacement for using the GHCI repl
+-- a replacement for using the GHCI repl to better capture the examples in one place
 
-import frege.prelude.Floating -- we need this for the power operator
+import frege.prelude.Math(**) -- we need this for the ** power operator
 
 main _ = do
     println ( 2 + 2 )
     println ( (+) 2 2 )
     println ( 31337 * 101 )
     println ( 7.0 / 2.0 )
-    println ( 313 ** 15 )   -- returns double, not BigInteger
+    println ( 313 ** 15 )   -- returns double, not BigInteger, there is no ^ operation
     println ( -3 )
     println ( 2 + -3 )      -- unlike haskell, this will work!
     println ( 2 + (-3) )
