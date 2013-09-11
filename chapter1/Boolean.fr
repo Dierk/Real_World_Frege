@@ -1,0 +1,14 @@
+module realworld.chapter1.Boolean where
+
+main _ = do
+    println ( true ) -- haskell: True
+    println ( true  && false )
+    println ( false || true )
+    -- println (true && 1) -- does not compile (as expected) the error message differs, though
+    println ( 1 == 1 )
+    println ( 2 < 3 )
+    println ( 4 > 3.99 )
+    println ( 2 /= 3 )  -- not equals, Haskell style
+    println ( 2 != 3 )  -- not equals, Java style
+    println ( not true )
+
