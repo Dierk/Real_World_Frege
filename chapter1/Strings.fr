@@ -1,0 +1,16 @@
+module realworld.chapter1.Strings where
+
+main _ = do
+    println "This is a String"
+    putStrLn "Here's a newline -->\n<-- See?"
+    println 'a'
+
+    let a = ['l', 'o', 't', 's', ' ', 'o', 'f', ' ', 'w', 'o', 'r', 'k']
+    println a         -- prints a list of chars, not a String
+    println(packed a) -- in Frege, it needs an extra function to make a String from a list of chars
+    println(packed a  == "lots of work")
+    println(packed [] == "")
+
+    -- String concatenation: from String to list and back again
+    println(packed ('a': unpacked "bc"))
+    println("a" ++ "bc")
