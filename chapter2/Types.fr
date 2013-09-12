@@ -1,0 +1,7 @@
+module realworld.chapter2.Types where
+
+main _ = do
+    -- println(true && "false" )    -- as expected, does not compile
+    println('a')
+    println('a' :: Char)            -- interestingly, does nothing (prints "" ?)
+    -- println([1,2,3] :: Int)      -- as expected, does not compile

@@ -1,0 +1,19 @@
+module realworld.chapter2.CompositeTypes where
+
+main _ = do
+    println(head [1,2,3,4])
+    println(head ['a', 'b', 'c'])
+
+    println(tail [1,2,3,4])
+    println(tail [2,3,4])
+
+    println(tail [true, false])
+    println(tail "list")       -- even though Strings are no lists, you can use tail on it
+    println(head "list")       -- and head
+
+    -- println(tail [] :: [()])   -- as expected compiles but throws Undefined exception at runtime
+
+    println((1964, "Labyrinths"))
+    println((4, ['a', 'm'], (16, true)))
+
+    println((false, 'a') :: (Bool, Char))

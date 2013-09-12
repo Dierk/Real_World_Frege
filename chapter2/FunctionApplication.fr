@@ -1,0 +1,15 @@
+module realworld.chapter2.FunctionApplication where
+
+import frege.prelude.Math(sqrt) -- for some reason, it does not come with the standard prelude
+
+main _ = do
+    println(odd 3)
+    println(odd 6)
+
+    println(compare 2 3) -- Lt
+    println(compare 3 3) -- Eq
+    println(compare 4 3) -- Gt
+
+    println(compare 2 3 == Lt) -- not uppercase but capitalized
+
+    println(compare (sqrt 3) (sqrt 6))

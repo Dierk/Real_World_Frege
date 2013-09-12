@@ -1,0 +1,11 @@
+module realworld.chapter1.WordCount where
+
+-- see http://stackoverflow.com/questions/18759291/what-is-the-frege-equivalent-to-haskells-interact-function
+
+import Data.List(intercalate)
+
+interact :: (String -> String) -> IO ()
+interact f = stdin.getLines >>= println . f . intercalate "\n"
+
+main _ = interact wordCount
+    where wordCount input = show (length (lines input)) ++ "\n"
