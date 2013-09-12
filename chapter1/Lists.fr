@@ -2,11 +2,18 @@ module realworld.chapter1.Lists where
 
 main _ = do
     println [1, 2, 3]
-    -- println ( [ ] ) -- unknown context: Show <3298 a>
+    -- println ( [ ] ) -- doesn't work in Frege since the exact type is not known.
+    println([ ] :: [ ( ) ]) -- you have to declare the type, see also: http://stackoverflow.com/questions/18751415/how-to-print-an-empty-literal-list-in-frege
+
     println ["foo", "bar", "baz", "quux", "fnord", "xyzzy"]
     -- println [true, false, "testing"] -- as expected, not allowed
     println [1..10]
+
     -- println [1.0, 1.25..2.0] -- Double is not an instance of Enum
+    -- Double enums are currenly not supported, see http://stackoverflow.com/questions/18751887/can-i-use-floating-point-enums-in-frege
+    -- proposed solution
+    println(takeWhile (<=2.0) (iterate (+0.25) 1))
+
     println [ 1, 4 .. 15]
     println [10, 9 ..  1]
 
