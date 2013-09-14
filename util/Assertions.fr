@@ -1,0 +1,6 @@
+module util.Assertions where
+
+assert :: Bool -> Bool -> String -> IO ()
+assert actual expected description
+    | expected == actual     = return ()
+    | otherwise              = error description

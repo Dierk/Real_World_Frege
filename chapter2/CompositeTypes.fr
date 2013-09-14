@@ -1,5 +1,7 @@
 module realworld.chapter2.CompositeTypes where
 
+
+
 main _ = do
     println(head [1,2,3,4])
     println(head ['a', 'b', 'c'])
