@@ -7,7 +7,6 @@
         gradle runFrege
 
     todo: use -P to select the main file to compile and run
-    todo: force java 7
     todo: make proper Tasks for input/output optimization
     todo: make a gradlew
 
@@ -21,6 +20,8 @@ def frege_jar     = file(System.properties.'user.home'+"/.frege/home/frege-${fre
 def frege_src_dir = '.'                 // adapt src and build dir to your layout
 def frege_build_dir = '../../build'
 
+def java7_exe      = '/Library/Java/JavaVirtualMachines/jdk1.7.0_10.jdk/Contents/Home/bin/java'
+
 
 task installFrege(type: Download) {
     sourceUrl = "https://github.com/Frege/frege/releases/download/$frege_version/frege$frege_version-${qualifier}.jar"
@@ -28,6 +29,7 @@ task installFrege(type: Download) {
 }
 
 task compileFrege(depends:installFrege, type:JavaExec) {
+    executable = java7_exe // must be java 7 for compilation
 	jvmArgs = ["-Xss1m"]
 	args = ["-d", frege_build_dir, "-make", "-sp", frege_src_dir]
 	new File(frege_src_dir).eachFileRecurse {
