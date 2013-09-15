@@ -1,27 +1,35 @@
 /**
-	Making the Frege language available. Compiler and Runtime is all in one jar.
-    Note: must be run with Java 7 !
+    Making the Frege language available. Compiler and Runtime is all in one jar.
+    Note: assumed to be run from the dir where this file lives in.
     Start from the command line as:
-        gradle compileFrege
+        gradle compileFrege -Pfrege_file=<relative file path>
     or
-        gradle runFrege
+        gradle runFrege -Pfrege_file=<relative file path>
 
-    todo: use -P to select the main file to compile and run
     todo: make proper Tasks for input/output optimization
     todo: make a gradlew
 
-	@author Dierk Koenig
+    @author Dierk Koenig
 */
 
-def frege_version = '3.21.190'
-def qualifier     = 'g714a7cc'
-def frege_jar     = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
+// settings to adapt
 
-def frege_src_dir = '.'                 // adapt src and build dir to your layout
-def frege_build_dir = '../../build'
+def frege_version   = '3.21.190'
+def qualifier       = 'g714a7cc'
+def frege_jar       = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
 
-def java7_exe      = '/Library/Java/JavaVirtualMachines/jdk1.7.0_10.jdk/Contents/Home/bin/java'
+def frege_src_dir   = file('.')
+def frege_build_dir = file('../../build')
 
+def java7_exe       = '/Library/Java/JavaVirtualMachines/jdk1.7.0_10.jdk/Contents/Home/bin/java'
+
+
+// it is unlikely that you need to change the below
+
+if (! project.hasProperty('frege_file')) {
+    println "please provide -Pfrege_file=..."
+    return
+}
 
 task installFrege(type: Download) {
     sourceUrl = "https://github.com/Frege/frege/releases/download/$frege_version/frege$frege_version-${qualifier}.jar"
@@ -30,19 +38,26 @@ task installFrege(type: Download) {
 
 task compileFrege(depends:installFrege, type:JavaExec) {
     executable = java7_exe // must be java 7 for compilation
-	jvmArgs = ["-Xss1m"]
-	args = ["-d", frege_build_dir, "-make", "-sp", frege_src_dir]
-	new File(frege_src_dir).eachFileRecurse {
-		if (it.file && it.path.endsWith('FunctionApplication.fr')) args += it.path
-	}
-	classpath = files(frege_jar)
-	main = "frege.compiler.Main"
+    jvmArgs = ["-Xss1m"]
+    args = ["-d", frege_build_dir.path, "-make", "-sp", frege_src_dir.absolutePath]
+    frege_src_dir.eachFileRecurse {
+        if (it.file && it.path.endsWith(frege_file)) args += it.path
+    }
+    classpath = files(frege_jar)
+    main = "frege.compiler.Main"
 }
 
 task runFrege(depends:compileFrege, type:JavaExec) {
-	jvmArgs = ["-Xss1m"]
-	classpath = files(frege_jar, frege_build_dir)
-	main = "realworld.chapter2.FunctionApplication"
+    jvmArgs = ["-Xss1m"]
+    classpath = files(frege_jar, frege_build_dir)
+    main = getFQName(frege_src_dir, frege_file)
+}
+
+// implementation details
+
+String getFQName(File sourceFileDir, String sourceFilePath) { // from the file path make a fully qualified class name
+    String basePath = sourceFileDir.canonicalPath + "/"
+    return (sourceFilePath - basePath - ".fr").replaceAll("/",".")
 }
 
 class Download extends DefaultTask {
