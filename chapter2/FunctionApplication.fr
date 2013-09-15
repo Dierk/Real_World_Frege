@@ -2,23 +2,17 @@ module realworld.chapter2.FunctionApplication where
 
 import frege.prelude.Math(sqrt) -- for some reason, it does not come with the standard prelude
 
--- import util.Assertions(assert) -- this is currently not working so we need the inline version below
-
-assert :: Bool -> Bool -> String -> IO ()
-assert actual expected description
-    | expected == actual     = do { print "" }   -- need a better way to do nothing
-    | otherwise              = error description
+import util.Assertions(assert)
 
 main _ = do
-    assert (odd 2) false "2 is not odd"
     assert (odd 3) true  "3 is odd"
-    println(odd 3)
-    println(odd 6)
+    assert (odd 6) false "6 is not odd"
 
-    println(compare 2 3) -- Lt
-    println(compare 3 3) -- Eq
-    println(compare 4 3) -- Gt
+    assert (compare 2 3) Lt "LT"
+    assert (compare 3 3) Eq "EQ"
+    assert (compare 4 3) Gt "GT"
 
-    println(compare 2 3 == Lt) -- not uppercase but capitalized
+    assert (compare 2 3 == Lt) true "Lt vs LT"
+    assert (compare 2 3 == LT) true "apparently, uppercase LT also works"
 
-    println(compare (sqrt 3) (sqrt 6))
+    assert (compare (sqrt 3) (sqrt 6)) Lt "parentheses needed"

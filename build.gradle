@@ -1,0 +1,57 @@
+/**
+	Making the Frege language available. Compiler and Runtime is all in one jar.
+    Note: must be run with Java 7 !
+    Start from the command line as:
+        gradle compileFrege
+    or
+        gradle runFrege
+
+    todo: use -P to select the main file to compile and run
+    todo: force java 7
+    todo: make proper Tasks for input/output optimization
+    todo: make a gradlew
+
+	@author Dierk Koenig
+*/
+
+def frege_version = '3.21.190'
+def qualifier     = 'g714a7cc'
+def frege_jar     = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
+
+def frege_src_dir = '.'                 // adapt src and build dir to your layout
+def frege_build_dir = '../../build'
+
+
+task installFrege(type: Download) {
+    sourceUrl = "https://github.com/Frege/frege/releases/download/$frege_version/frege$frege_version-${qualifier}.jar"
+    target    = frege_jar
+}
+
+task compileFrege(depends:installFrege, type:JavaExec) {
+	jvmArgs = ["-Xss1m"]
+	args = ["-d", frege_build_dir, "-make", "-sp", frege_src_dir]
+	new File(frege_src_dir).eachFileRecurse {
+		if (it.file && it.path.endsWith('FunctionApplication.fr')) args += it.path
+	}
+	classpath = files(frege_jar)
+	main = "frege.compiler.Main"
+}
+
+task runFrege(depends:compileFrege, type:JavaExec) {
+	jvmArgs = ["-Xss1m"]
+	classpath = files(frege_jar, frege_build_dir)
+	main = "realworld.chapter2.FunctionApplication"
+}
+
+class Download extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+       ant.get(src: sourceUrl, dest: target)
+    }
+}
