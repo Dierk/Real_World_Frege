@@ -1,21 +1,21 @@
 module realworld.chapter2.CompositeTypes where
 
-
+import util.Assertions(assert)
 
 main _ = do
-    println(head [1,2,3,4])
-    println(head ['a', 'b', 'c'])
+    assert (head [1,2,3,4])         1   "integer head"
+    assert (head ['a', 'b', 'c'])   'a' "char head"
 
-    println(tail [1,2,3,4])
-    println(tail [2,3,4])
+    assert (tail [1,2,3,4]) [2,3,4]     "tail of an integer list"
+    assert (tail [2,3,4])   [3,4]       "tail of a tail"
 
-    println(tail [true, false])
-    println(tail "list")       -- even though Strings are no lists, you can use tail on it
-    println(head "list")       -- and head
+    assert (tail [true, false]) [false] "tail of a boolean list"
+    assert (tail "list")    "ist"       "even though Strings are no lists, you can use tail on it"
+    assert (head "list")    'l'         "head of a String"
 
-    -- println(tail [] :: [()])   -- as expected compiles but throws Undefined exception at runtime
+    -- assert (tail [] :: [()])       -- as expected compiles but throws Undefined exception at runtime
 
-    println((1964, "Labyrinths"))
-    println((4, ['a', 'm'], (16, true)))
+    println ((1964, "Labyrinths"))    -- we can construct a tuple
+    println ((4, ['a', 'm'], (16, true))) -- triple of value, list, and pair
 
-    println((false, 'a') :: (Bool, Char))
+    assert ((false, 'a') :: (Bool, Char)) (false, 'a') "with and without type declaration"
