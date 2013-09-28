@@ -1,0 +1,21 @@
+module realworld.chapter2.Polymorphism where
+
+import util.Assertions(assert)
+
+-- Exercise 2 "lastButOne" is the second one of the reversed list
+second     xs = head (tail xs)
+lastButOne xs = second (reverse xs)
+
+main _ = do
+        --  :type last
+        --  [?] -> ?
+        assert (last [1,2,3])     3   "last int"
+        assert (last ['a','b'])  'b'  "last char"
+
+        --  :type fst
+        --  (?,?) -> ?
+        assert (fst ('a',1))     'a'  "natural limits what fst can do"
+
+        assert (lastButOne [1,2,3,4])  3  "lastButOne usual case"
+        assert (lastButOne [1,2])      1  "lastButOne edge case"
+--        assert (lastButOne [1])      1  "lastButOne error case at runtime as expected"

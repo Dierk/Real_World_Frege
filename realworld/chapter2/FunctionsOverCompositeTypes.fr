@@ -12,3 +12,6 @@ main _ = do
     assert (head (drop 4 (unpacked "azerty")))  't'  "passing an expression to a function"
 
     assert (lines "the quick\nbrown fox")       ["the quick", "brown fox"]    "type: lines :: String -> [String]"
+
+    -- todo ask - first check under known differences
+    -- :type readFile -- doesnt work in the repl since readFile is not known
