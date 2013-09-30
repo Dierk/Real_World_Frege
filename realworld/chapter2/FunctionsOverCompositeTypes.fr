@@ -2,6 +2,12 @@ module realworld.chapter2.FunctionsOverCompositeTypes where
 
 import util.Assertions(assert)
 
+-- a replacement for the missing "readFile" function, including the type
+readFile :: String -> IO [String]
+readFile fileName = do
+    file <- openReader fileName
+    file.getLines
+
 main _ = do
     assert (take 2 [1,2,3,4,5])   [1,2]   "take from a list"
     assert (drop 3 [1,2,3,4,5])   [4,5]   "drop from a list"
@@ -13,5 +19,5 @@ main _ = do
 
     assert (lines "the quick\nbrown fox")       ["the quick", "brown fox"]    "type: lines :: String -> [String]"
 
-    -- todo ask - first check under known differences
-    -- :type readFile -- doesnt work in the repl since readFile is not known
+    readFile "/data.txt"
+    return ()
