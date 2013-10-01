@@ -20,8 +20,6 @@ main _ = do
     assert (mydrop 2 nada)      nada   "underrun 1"
     assert (mydrop (-2) [1,2])  [1,2]  "underrun 2"
 
-    println (drop 16_000_000 [1..16_000_001]) -- exhausts the machine (all 8 cores at 100%)
-
-    --  frege> :type null
-    --  Empty ? => ? ? -> Bool
+    -- only out of curiosity:
+    println (mydrop 30_000_000 [1..30_000_001]) -- make sure you have -inline as a compile option
 
