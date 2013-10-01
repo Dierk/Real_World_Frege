@@ -39,7 +39,7 @@ task installFrege(type: Download) {
 task compileFrege(depends:installFrege, type:JavaExec) {
     executable = java7_exe // must be java 7 for compilation
     jvmArgs = ["-Xss1m"]
-    args = ["-d", frege_build_dir.path, "-make", "-sp", frege_src_dir.absolutePath]
+    args = ["-inline", "-d", frege_build_dir.path, "-inline", "-make", "-sp", frege_src_dir.absolutePath]
     frege_src_dir.eachFileRecurse {
         if (it.file && it.path.endsWith(frege_file)) args += it.path
     }
