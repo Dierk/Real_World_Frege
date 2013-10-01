@@ -1,0 +1,36 @@
+module realworld.chapter3.A_New_DataTypes where
+
+import util.Assertions(assert)
+
+-- defining data types
+data BookInfo = Book Int String [String]
+derive Show BookInfo
+
+data MagazineInfo = Magazine Int String [String]
+derive Show MagazineInfo
+
+-- creating an instance of such a data type
+-- 9780135072455 is too big for an Int. Workaround 1: use a smaller number
+myInfo = Book 1 "Algebra of Programming"
+         ["Richard Bird", "Oege de Moor"]
+
+-- type aliases for type safety and better readability
+type CustomerID = Int
+type ReviewBody = String
+data BookReview = BookReview BookInfo CustomerID ReviewBody
+derive Show BookReview
+
+myReview = BookReview myInfo 42 "Excellent book!"
+
+
+-- combinations of the above
+type BookRecord = (BookInfo, CustomerID)
+
+cartItem = (myInfo, 42)
+
+
+main _ = do
+        assert (show myInfo) "Book 1 \"Algebra of Programming\" [\"Richard Bird\", \"Oege de Moor\"]" "assert show"
+
+        println myReview    -- there is not much point in using assertions here
+        println cartItem

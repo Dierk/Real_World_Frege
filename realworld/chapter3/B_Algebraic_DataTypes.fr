@@ -1,0 +1,48 @@
+module realworld.chapter3.B_Algebraic_DataTypes where
+
+import util.Assertions(assert)
+
+-- type synonyms
+type CardHolder = String
+type CardNumber = String
+type Address    = [String]
+type CustomerID = Int
+
+-- multi-constructor data types
+data BillingInfo = CreditCard CardNumber CardHolder Address
+                 | CashOnDelivery
+                 | Invoice CustomerID
+
+derive Show BillingInfo
+
+billingInfo = CreditCard "2901650221064486" "Thomas Gradgrind" ["Dickens", "England"]
+
+
+-- use data types instead of (double, double) for type safety
+-- x and y coordinates or lengths.
+data Cartesian2D = Cartesian2D Double Double
+derive Eq   Cartesian2D
+derive Show Cartesian2D
+
+-- Angle and distance (magnitude).
+data Polar2D = Polar2D Double Double
+derive Eq   Polar2D
+derive Show Polar2D
+
+-- enums are just data types with many parameterless constructors
+data MyColor = Red
+             | Green
+             | Blue
+derive Eq   MyColor
+derive Show MyColor
+
+main _ = do
+        println billingInfo
+
+        -- assert (Cartesian2D 1 1) (Polar2D 1 1) "as expected: this will not even compile!"
+
+        assert (1,2) (1,2) "tuples enjoy no such type safety"
+
+        assert Red Red "compare enums for equality"
+
+        -- assert Red 0 "as expected: does not even compile since enums aren't numbers"
