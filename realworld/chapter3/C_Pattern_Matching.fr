@@ -1,0 +1,31 @@
+module realworld.chapter3.C_Pattern_Matching where
+
+import util.Assertions(assert)
+
+myNot true  = false
+myNot false = true
+
+sumList (x:xs) = x + sumList xs
+sumList []     = 0
+
+-- this gives a nice refutable patterns warning :-)
+complicated (true, a, x:xs, 5) = (a, xs)
+
+-- as in section A
+data BookInfo = Book Int String [String]
+derive Show BookInfo
+-- matching on constructors
+bookID      (Book id title authors) = id
+bookTitle   (Book id title authors) = title
+bookAuthors (Book _  _     authors) = authors -- also possible: wildcards
+
+gina = Book 1 "Groovy in Action" ["Koenig", "et al."]
+
+main _ = do
+        assert (myNot false)      true "function defined as a series of equations"
+        assert (sumList [1,2,3])  6    "matching on cons destruction"
+
+        assert (complicated (true, 1, [1,2,3], 5) )    (1, [2,3])  "a complicated tuple match"
+
+        assert (bookID gina)      1    "functial field accessor by pattern matching: ID"
+        assert (bookTitle gina)   "Groovy in Action"  "functial field accessor by pattern matching: title"
