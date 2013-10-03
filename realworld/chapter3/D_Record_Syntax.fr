@@ -1,0 +1,20 @@
+module realworld.chapter3.D_Record_Syntax where
+
+import util.Assertions(assert)
+
+type CustomerID = Int
+type Address    = [String]
+
+data Customer = Customer {
+    id      :: CustomerID ,
+    name    :: String ,
+    address :: Address
+}
+derive Show Customer
+
+google = Customer 1 "Google" ["Mountain View", "CA"]
+
+main _ = do
+    println google
+    -- deviation from haskell:
+    assert (Customer.name google) "Google" "generated field accessor needs namespace qualifier!"
