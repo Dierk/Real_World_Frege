@@ -18,4 +18,4 @@ main _ = do
     println google
     -- deviation from haskell:
     assert (Customer.name google) "Google" "generated field accessor needs namespace qualifier!"
-    assert google.name            "Google" "generated field accessor in object-like syntax when type is unamiguous!"
+    assert google.name            "Google" "generated field accessor in object-like syntax when type is unambiguous!"    assert (Customer.name google) "Google" "generated field accessor needs namespace qualifier!"
