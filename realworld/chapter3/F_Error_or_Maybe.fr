@@ -1,0 +1,11 @@
+module realworld.chapter3.F_Error_or_Maybe where
+
+import util.Assertions(assert)
+
+tidySecond :: [a]  -> Maybe a
+tidySecond (_:x:_)  = Just x
+tidySecond _        = Nothing
+
+main _ = do
+    assert (tidySecond [1])     Nothing     "no second element in list of size 1"
+    assert (tidySecond [1,2])   (Just 2)    "second element in list of size 2 and beyond"
