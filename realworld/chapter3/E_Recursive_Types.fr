@@ -1,0 +1,24 @@
+module realworld.chapter3.E_Recursive_Types where
+
+import util.Assertions(assert)
+
+data Tree a = Node a (Tree a) (Tree a)
+            | Empty
+derive Show (Tree a)
+
+payload (Node a _ _ ) = a
+
+parent = Node 3 (Node 1 Empty Empty) (Node 2 Empty Empty)
+
+-- exercise: make a tree with maybe
+-- a node may or may not have either a left or a right node attached
+data MayTree a = MayTree a (Maybe (MayTree a)) (Maybe (MayTree a))
+derive Show (MayTree a)
+
+singleMother = MayTree 2 (Just (MayTree 1 Nothing Nothing)) Nothing
+
+main _ = do
+    println parent
+    assert (payload parent) 3 "holding onto the payload of a node in a tree"
+    
+    println singleMother
