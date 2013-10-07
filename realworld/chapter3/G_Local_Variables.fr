@@ -1,0 +1,38 @@
+module realworld.chapter3.G_Local_Variables where
+
+import util.Assertions(assert)
+
+lend amount balance = let reserve = 100
+                          newBalance = balance - amount
+                      in if newBalance < reserve -- this was "balance" in the book, which makes no sense to me
+                         then Nothing
+                         else Just newBalance
+
+lend2 amount balance = if amount < reserve * 0.5
+                       then Just newBalance
+                       else Nothing
+                       where reserve = 100
+                             newBalance = balance - amount
+
+-- the below is only for completeness. Relying on shadowing is silly.
+
+foo =   let a = 1
+        in let b = 2
+           in a + b
+
+bar =   let x = 1
+        in ((let x = "foo" in x), x)
+
+quux :: a -> String
+quux a = let a = "foo"
+         in a ++ "eek!"
+
+main _ = do
+    assert (lend 100 100)   Nothing     "cannot lend"
+    assert (lend 50  200)   (Just 150)  "had 200, gave away 50, remaining:150"
+
+    assert (lend2 40  200)  (Just 160)  "had 200, gave away 40, remaining:160"
+
+    assert foo              3           "nested let"
+    assert bar              ("foo",1)   "scoped let"
+    assert (quux 1)         "fooeek!"   "argument is not used but shadowed"
