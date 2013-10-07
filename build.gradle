@@ -18,6 +18,9 @@ def frege_version   = '3.21.190'
 def qualifier       = 'g714a7cc'
 def frege_jar       = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
 
+// scripting jar
+// https://github.com/Frege/frege-scripting/releases/download/1.0.0/jfrege-script-engine-1.0.0.zip
+
 def frege_src_dir   = file('.')
 def frege_build_dir = file('../../build')
 
