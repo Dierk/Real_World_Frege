@@ -14,6 +14,14 @@ lend2 amount balance = if amount < reserve * 0.5
                        where reserve = 100
                              newBalance = balance - amount
 
+-- local functions
+
+pluralise :: String -> [Int] -> [String]
+pluralise word counts = map plural counts
+    where plural 0 = "no "  ++ word ++ "s"
+          plural 1 = "one " ++ word
+          plural n = show n ++ " " ++ word ++ "s"
+
 -- the below is only for completeness. Relying on shadowing is silly.
 
 foo =   let a = 1
@@ -36,3 +44,5 @@ main _ = do
     assert foo              3           "nested let"
     assert bar              ("foo",1)   "scoped let"
     assert (quux 1)         "fooeek!"   "argument is not used but shadowed"
+
+    println (pluralise "Dierk" [0,1,2])
