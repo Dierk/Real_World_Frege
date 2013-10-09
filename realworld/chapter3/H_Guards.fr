@@ -1,0 +1,21 @@
+module realworld.chapter3.H_Guards where
+
+import util.Assertions(assert)
+
+lend3 amount balance
+    | amount <= 0               = Nothing
+    | amount > reserve * 0.5    = Nothing
+    | otherwise                 = Just newBalance
+    where
+        reserve    = 100        -- must be on new line !
+        newBalance = balance - amount
+
+
+niceDrop n xs | n <= 0  = xs
+niceDrop _ []           = []
+niceDrop n (_:xs)       = niceDrop (n - 1) xs
+
+main _ = do
+    assert (lend3 50 200) (Just 150) "lending 50 with guards"
+
+    assert (niceDrop 2 [1,2,3]) [3]  "dropping with guards"
