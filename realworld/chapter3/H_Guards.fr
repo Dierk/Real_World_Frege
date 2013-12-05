@@ -15,6 +15,8 @@ niceDrop n xs | n <= 0  = xs
 niceDrop _ []           = []
 niceDrop n (_:xs)       = niceDrop (n - 1) xs
 
+-- bad = head (tail [1])   -- this is a bad idea and throws an exception when enabled
+
 main _ = do
     assert (lend3 50 200) (Just 150) "lending 50 with guards"
 
