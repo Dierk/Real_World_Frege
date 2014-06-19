@@ -24,7 +24,7 @@ def frege_jar       = file(System.properties.'user.home'+"/.frege/home/frege-${f
 def frege_src_dir   = file('.')
 def frege_build_dir = file('../../build')
 
-def java7_exe       = '/Library/Java/JavaVirtualMachines/jdk1.7.0_10.jdk/Contents/Home/bin/java'
+def java7_exe       = '/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/bin/java'
 
 
 // it is unlikely that you need to change the below
