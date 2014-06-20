@@ -14,8 +14,8 @@
 
 // settings to adapt
 
-def frege_version   = '3.21.190'
-def qualifier       = 'g714a7cc'
+def frege_version   = '3.21.500'
+def qualifier       = 'g88270a0'
 def frege_jar       = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
 
 // scripting jar
