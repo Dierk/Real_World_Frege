@@ -1,6 +1,6 @@
 module realworld.chapter2.FunctionsOverCompositeTypes where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 -- a replacement for the missing "readFile" function, including the type
 readFile :: String -> IO [String]

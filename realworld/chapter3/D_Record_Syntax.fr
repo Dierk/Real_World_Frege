@@ -1,6 +1,6 @@
 module realworld.chapter3.D_Record_Syntax where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 type CustomerID = Int
 type Address    = [String]

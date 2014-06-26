@@ -1,0 +1,25 @@
+module realworld.chapter3.I_Exercise_1 where
+
+-- Write a function that determines the length of a list
+
+import realworld.util.Assertions(assert)
+
+-- The type would actually be inferred but we declare it anyway to make sure that
+-- the inferred type is what we expect it to be
+mylength :: [a] -> Int
+
+mylength (_:xs)       = 1 + (mylength xs)
+mylength []           = 0
+
+-- optLength uses tail recursion and forces eager argument evaluation
+optLength xs = privateLength xs 0 where
+    privateLength (_:rest) !count = privateLength rest (count + 1)
+    privateLength []       !count = count
+
+main _ = do
+    assert (mylength [])  (length [])  "empty"
+    assert (mylength [0]) (length [0]) "one element"
+--  assert (mylength [0..30_000]) (length [0..30_000]) "many elements lead to stack overflow"
+    assert (optLength [0..1_000_000])  (length [0..1_000_000])  "optLength can do a little more"
+    assert (optLength [0..10_000_000]) (length [0..10_000_000]) "this takes 40 seconds (20 s each)"
+--  println (length [0..100_000_000]) -- never stops

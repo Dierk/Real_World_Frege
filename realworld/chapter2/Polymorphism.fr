@@ -1,6 +1,6 @@
 module realworld.chapter2.Polymorphism where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 -- Exercise 2 "lastButOne" is the second one of the reversed list
 second     xs = head (tail xs)

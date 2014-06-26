@@ -1,6 +1,6 @@
 module realworld.chapter3.C_Pattern_Matching where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 myNot true  = false
 myNot false = true

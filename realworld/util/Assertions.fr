@@ -1,4 +1,4 @@
-module util.Assertions where
+module realworld.util.Assertions where
 
 assert :: Eq comparable =>   comparable -> comparable -> String -> IO ()
 assert actual expected description

@@ -1,6 +1,6 @@
 module realworld.chapter3.B_Algebraic_DataTypes where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 -- type synonyms
 type CardHolder = String

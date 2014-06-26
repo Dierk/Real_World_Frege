@@ -1,6 +1,6 @@
 module realworld.chapter3.H_Guards where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 lend3 amount balance
     | amount <= 0               = Nothing

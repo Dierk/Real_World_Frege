@@ -1,6 +1,6 @@
 module realworld.chapter3.F_Error_or_Maybe where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 tidySecond :: [a]  -> Maybe a
 tidySecond (_:x:_)  = Just x

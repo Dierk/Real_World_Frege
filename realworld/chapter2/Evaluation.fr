@@ -1,6 +1,6 @@
 module realworld.chapter2.Evaluation where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 x = 10
 -- x = 11 -- as expected does not compile

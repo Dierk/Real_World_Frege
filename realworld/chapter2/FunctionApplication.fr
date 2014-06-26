@@ -2,7 +2,7 @@ module realworld.chapter2.FunctionApplication where
 
 import frege.prelude.Math(sqrt) -- for some reason, it does not come with the standard prelude
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 main _ = do
     assert (odd 3) true  "3 is odd"

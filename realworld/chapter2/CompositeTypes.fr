@@ -1,6 +1,6 @@
 module realworld.chapter2.CompositeTypes where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 main _ = do
     assert (head [1,2,3,4])         1   "integer head"

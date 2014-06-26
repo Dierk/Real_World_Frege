@@ -1,6 +1,6 @@
 module realworld.chapter3.E_Recursive_Types where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 data Tree a = Node a (Tree a) (Tree a)
             | Empty

@@ -1,6 +1,6 @@
 module realworld.chapter3.A_New_DataTypes where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 -- defining data types
 data BookInfo = Book Int String [String]

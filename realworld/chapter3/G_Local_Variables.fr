@@ -1,6 +1,6 @@
 module realworld.chapter3.G_Local_Variables where
 
-import util.Assertions(assert)
+import realworld.util.Assertions(assert)
 
 lend amount balance = let reserve = 100
                           newBalance = balance - amount

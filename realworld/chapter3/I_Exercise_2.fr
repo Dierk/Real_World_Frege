@@ -1,0 +1,19 @@
+module realworld.chapter3.I_Exercise_2 where
+
+-- Write a function that determines the mean of a list of numbers
+
+import realworld.util.Assertions(assert)
+
+-- The type would actually be inferred but we declare it anyway to make sure that
+-- the inferred type is what we expect it to be
+mean :: Real a => [a] -> a
+
+mean (x:xs) = sum (x:xs) / fromIntegral (length (x:xs))
+
+
+main _ = do
+--  assert (mean [])        (0)  "refutable warning from compiler, fails with 'no match' at runtime"
+--  assert (mean ['a'])     (0)  "must not compile"
+    assert (mean [1])       (1)  "one one"
+    assert (mean [1,1,1,1]) (1)  "many ones"
+    assert (mean [1,2,3])   (2)  "typical"
