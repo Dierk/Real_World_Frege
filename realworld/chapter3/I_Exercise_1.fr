@@ -8,18 +8,22 @@ import realworld.util.Assertions(assert)
 -- the inferred type is what we expect it to be
 mylength :: [a] -> Int
 
-mylength (_:xs)       = 1 + (mylength xs)
-mylength []           = 0
+mylength (_:xs)  = 1 + (mylength xs)
+mylength []      = 0
 
--- optLength uses tail recursion and forces eager argument evaluation
-optLength xs = privateLength xs 0 where
+-- tailRecLength uses tail recursion and forces eager argument evaluation
+tailRecLength xs = privateLength xs 0 where
     privateLength (_:rest) !count = privateLength rest (count + 1)
     privateLength []       !count = count
+
 
 main _ = do
     assert (mylength [])  (length [])  "empty"
     assert (mylength [0]) (length [0]) "one element"
 --  assert (mylength [0..30_000]) (length [0..30_000]) "many elements lead to stack overflow"
-    assert (optLength [0..1_000_000])  (length [0..1_000_000])  "optLength can do a little more"
-    assert (optLength [0..10_000_000]) (length [0..10_000_000]) "this takes 40 seconds (20 s each)"
+    assert (tailRecLength [0..1_000_000])  (length [0..1_000_000])  "tailRecLength can do a little more"
+    assert (tailRecLength [0..10_000_000]) (length [0..10_000_000]) "this takes 40 seconds (20 s each)"
 --  println (length [0..100_000_000]) -- never stops
+
+
+--  see https://stackoverflow.com/questions/24437111/is-there-an-upper-limit-for-the-length-function-on-lists-in-frege

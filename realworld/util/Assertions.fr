@@ -1,6 +1,6 @@
 module realworld.util.Assertions where
 
 assert :: Eq comparable =>   comparable -> comparable -> String -> IO ()
-assert actual expected description
+assert !actual !expected description
     | expected == actual     = return ()
     | otherwise              = error description
