@@ -45,4 +45,6 @@ main _ = do
     assert bar              ("foo",1)   "scoped let"
     assert (quux 1)         "fooeek!"   "argument is not used but shadowed"
 
+    assert (pluralise "Dierk" [0,1,2])  ["no Dierks", "one Dierk", "2 Dierks"]   "see how pluralize works"
+
     println (pluralise "Dierk" [0,1,2])

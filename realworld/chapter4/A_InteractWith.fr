@@ -1,0 +1,15 @@
+module realworld.chapter4.A_InteractWith where
+
+-- import System.Environment (getArgs) -- not needed since Frege puts that as args to the main function
+
+interactWith function inputFile outputFile = do
+    input <- readFile inputFile
+    writeFile outputFile (function input)
+
+main args = mainWith myFunction where
+    mainWith function = do
+        case args of
+            [input, output] -> interactWith function input output
+            _               -> putStrLn "exactly two arguments needed (inputfile, outputfile)"
+
+    myFunction = id
