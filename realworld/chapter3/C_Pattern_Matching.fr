@@ -27,5 +27,5 @@ main _ = do
 
         assert (complicated (true, 1, [1,2,3], 5) )    (1, [2,3])  "a complicated tuple match"
 
-        assert (bookID gina)      1    "functial field accessor by pattern matching: ID"
-        assert (bookTitle gina)   "Groovy in Action"  "functial field accessor by pattern matching: title"
+        assert (bookID gina)      1    "functional field accessor by pattern matching: ID"
+        assert (bookTitle gina)   "Groovy in Action"  "functional field accessor by pattern matching: title"
