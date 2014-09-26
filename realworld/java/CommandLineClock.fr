@@ -1,0 +1,24 @@
+{--
+    This program displays the
+    current time on standard output
+    every other second.
+    -}
+
+module realworld.java.CommandLineClock where
+
+data Date = native java.util.Date where
+    native new :: () -> IO (MutableIO Date)             -- new Date()
+    native toString :: Mutable s Date -> ST s String    -- d.toString()
+
+--- 'IO' action to give us the current time as 'String'
+current :: IO String
+current = do
+    d <- Date.new ()  -- reads system timer, hence IO
+    d.toString
+
+main args =
+    forever do
+        current >>= print   -- print formatted date
+        print "\r"          -- followed by carriage return
+        stdout.flush        -- make sure it's shown
+        Thread.sleep 999L   -- wait 0.999 seconds

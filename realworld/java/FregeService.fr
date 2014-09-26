@@ -1,0 +1,10 @@
+-- for calls from Java
+-- put the compile output dir on the Java classpath
+-- call from Java like FregeService.myTimes(3,5)
+
+module realworldfrege.java.FregeService where
+
+-- providing the declaration makes calls from Java easier
+-- since the types already line up
+myTimes :: Int -> Int -> Int
+myTimes m n = m * n
