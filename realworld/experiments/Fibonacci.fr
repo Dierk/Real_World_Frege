@@ -1,17 +1,6 @@
 module realworld.experiments.Fibonacci where
 
-
---myzip (x:xs) (y:ys) = ( x+y : myzip xs ys )
---myzip [] _  = []
---myzip _  [] = []
-
-
-
 fib = 0 : 1 : zipWith (+) fib (tail fib)
 
 main _ = do
-
---    println (myzip [1,2,3] [1,2])
-
-
-    println (take 60 fib)
+         println (take 60 fib)

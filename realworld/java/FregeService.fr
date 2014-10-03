@@ -6,5 +6,7 @@ module realworldfrege.java.FregeService where
 
 -- providing the declaration makes calls from Java easier
 -- since the types already line up
+
 myTimes :: Int -> Int -> Int
+
 myTimes m n = m * n
