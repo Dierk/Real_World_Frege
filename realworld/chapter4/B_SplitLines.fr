@@ -4,24 +4,31 @@ import realworld.util.Assertions(assert)
 
 -- remember that unlike Haskell the types String and [Char] are not the same in Frege
 -- therefore we have to do some packing/unpacking to play with the book example
+-- sorry for the forward reference to "map"
+splitString s = map packed (splitLines (unpacked s))
 
 splitLines [] = []
 splitLines cs =
-    let (pre, suf) = break isLineTerminator cs
-    in pre : ( case suf of
-            ('\r':'\n':rest)    -> splitLines rest
-            ('\r':rest)         -> splitLines rest
-            ('\n':rest)         -> splitLines rest
-            _                   -> []
-       ) -- attention! this needs extra parens and closing one must line up with "pre"
+    let (pre, suf) = break isLineTerminator cs in
+    pre : ( case suf of
+        ('\r':'\n':rest)    -> splitLines rest
+        ('\r':rest)         -> splitLines rest
+        ('\n':rest)         -> splitLines rest
+        _                   -> []
+    ) -- attention! this needs extra parens and the closing one must line up with "pre"
 
 isLineTerminator c = c == '\r' || c == '\n'
 
 main _ = do
-     assert (splitLines [])                      ([])                               "empty"
-     assert (splitLines (unpacked ""))           ([])                               "empty String"
-     assert (splitLines (unpacked "a\rb"))       (map unpacked [ "a", "b"])         "cr"
-     assert (splitLines (unpacked "a\nb"))       (map unpacked [ "a", "b"])         "lf"
-     assert (splitLines (unpacked "a\r\nb"))     (map unpacked [ "a", "b"])         "crlf"
-     -- I assume the below was not by design but is an error in the book
-     assert (splitLines (unpacked "\ra\n\rb\n")) (map unpacked [ "", "a","", "b"])  "edge cases"
+     assert (splitLines [])             []                  "empty list"
+     assert (splitString "")            []                  "empty String"
+     assert (splitString "a\rb")        [ "a", "b"]         "cr"
+     assert (splitString "a\nb")        [ "a", "b"]         "lf"
+     assert (splitString "a\r\nb")      [ "a", "b"]         "crlf"
+     -- I assume the below was not by design but is an error in the book (last empty String missing)
+     assert (splitString "\ra\n\rb\n")  [ "", "a","", "b"]  "edge cases"
+
+     -- Frege has a close alternative by using regular expression for the split
+
+     println (´\r\n|\r|\n´.splitted "a\r\nb")      [ "a", "b"]         "by regular expression"
+     println (´\r\n|\r|\n´.splitted "\ra\n\rb\n")  [ "", "a","", "b"]  "the edge case is equally bad"
