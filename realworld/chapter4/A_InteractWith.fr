@@ -1,3 +1,7 @@
+-- in order to test the OS integration you can use the following Groovy starter:
+--import realworld.chapter4.A_InteractWith
+--A_InteractWith.main(['/data.txt', '/tmp/out.txt'] as String[])
+
 module realworld.chapter4.A_InteractWith where
 
 -- import System.Environment (getArgs) -- not needed since Frege puts that as args to the main function
