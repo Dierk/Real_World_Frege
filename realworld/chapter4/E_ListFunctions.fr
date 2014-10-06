@@ -1,0 +1,60 @@
+module realworld.chapter4.E_ListFunctions where
+
+import realworld.util.Assertions(assert)
+import Data.List
+
+myHead (x:_) = Just x
+myHead _     = Nothing
+
+emptyIntList = drop 1 [1]      -- a trick to get the right type. below we need an empty list of Ints
+
+main _ = do
+     assert (length [1,2,3])    3       "length"
+     assert (null [])           true    "empty / null"
+     assert (head [1,2,3])      1       "head"
+     assert (tail [1,2,3])      [2,3]   "tail"
+     assert (last [1,2,3])      3       "last"
+     assert (init [1,2,3])      [1,2]   "init"
+
+     assert (myHead [1,2,3])       (Just 1)  "myHead normal"
+     assert (myHead emptyIntList)  Nothing   "myHead on empty list"
+
+     assert ("foo" ++ "bar")    "foobar"  "String concatenation"
+     assert ([] ++ [1,2,3])     [1,2,3]   "empty list append"
+     assert ([true] ++ [])      [true]    "append with empty list"
+
+     assert (concat [[1,2,3], [4,5,6]])                     [1,2,3,4,5,6]           "concat"
+     assert (concat [[[1,2],[3]], [[4],[5],[6]]])           [[1,2],[3],[4],[5],[6]] "concat removes one level of nesting"
+     assert (concat (concat [[[1,2],[3]], [[4],[5],[6]]]))  [1,2,3,4,5,6]           "multiple concats"
+
+     assert (reverse (unpacked "food"))   (unpacked "doof")     "String reverse"
+
+     assert (and [true, false, true])     false                 "generalized &&"
+     assert (and [])                      true                  "generalized && on empty list"
+     assert (or  [true, false, true])     true                  "generalized ||"
+     assert (or  [])                      false                 "generalized || on empty list"
+
+     assert (all odd [1,3,5])             true                  "are they all odd"
+     assert (all odd emptyIntList)        true                  "are all in the empty list odd"
+     assert (any even [1,2,3])            true                  "is there an even one"
+     assert (any even emptyIntList)       false                 "is there an even one in the empty list"
+
+     assert (take 3 (unpacked "foobar"))  (unpacked "foo")      "take 3"
+     assert (take 2 [1])                  [1]                   "take underflow"
+     assert (drop 3 (unpacked "foobar"))  (unpacked "bar")      "drop 3"
+     assert (drop 1 emptyIntList)         []                    "drop underflow"
+     assert (splitAt 2 [0,1,2,3])         ([0,1],[2,3])         "splitAt"
+     assert (splitAt 4 [0,1,2,3])         ([0,1,2,3],[])        "splitAt overflow"
+
+     assert (elem 1 [1,2,3])              true                  "elem"
+     assert (notElem 1 [1,2,3])           false                 "not elem"
+
+     assert (filter odd [1,2,3])          [1,3]                 "filter odd"
+
+     assert (zip [1,2,3] [4,5,6])         [(1,4),(2,5),(3,6)]   "zip"
+     assert (zipWith (+) [1,2,3] [4,5,6]) [5,7,9]               "zipWith"
+
+     assert (lines "foo\nbar")            ["foo","bar"]         "lines"
+     assert (unlines ["foo","bar"])       "foo\nbar\n"          "unlines does an extra line feed"
+     assert (words "foo  bar")            ["foo","bar"]         "words splits on whitespace"
+     assert (unwords ["foo","bar"])       "foo bar"             "unwords normalizes to blanks"
