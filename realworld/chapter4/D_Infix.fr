@@ -1,0 +1,25 @@
+module realworld.chapter4.D_Infix where
+
+import realworld.util.Assertions(assert)
+import Data.List(isPrefixOf, isInfixOf, isSuffixOf)
+
+a `plus` b = a + b
+
+-- Infix data declarations are not supported in Frege, but infix application
+-- data a `Pair` b = a `Pair` b
+data Pair a b = Pair a b
+derive Show (Pair a b)
+
+foo = Pair 1 2
+bar = true `Pair` "quux"
+
+main _ = do
+     assert (1 `plus` 2)                    3                       "infix plus"
+     assert ('a' `elem` (unpacked "abc"))   true                    "infix char elem String"
+     assert (1   `elem`  [0,1,2])           true                    "infix Int  elem List"
+     assert (show foo)                      "Pair 1 2"              "postfix created pair"
+     assert (show bar)                      "Pair true \"quux\""    "infix created pair"
+
+     assert ((unpacked "foo")    `isPrefixOf` (unpacked "foobar"))                             true "prefix"
+     assert ((unpacked "needle") `isInfixOf`  (unpacked "haystack full of needle thingies"))   true "infix"
+     assert ((unpacked "end")    `isSuffixOf` (unpacked "the end"))                            true "suffix"
