@@ -30,5 +30,5 @@ main _ = do
 
      -- Frege has a close alternative by using regular expression for the split
 
-     println (´\r\n|\r|\n´.splitted "a\r\nb")      [ "a", "b"]         "by regular expression"
-     println (´\r\n|\r|\n´.splitted "\ra\n\rb\n")  [ "", "a","", "b"]  "the edge case is equally bad"
+     assert (´\r\n|\r|\n´.splitted "a\r\nb")      [ "a", "b"]         "by regular expression"
+     assert (´\r\n|\r|\n´.splitted "\ra\n\rb\n")  [ "", "a","", "b"]  "the edge case is equally bad"

@@ -1,0 +1,21 @@
+-- in order to test the OS integration you can use the following Groovy starter:
+--import realworld.chapter4.A_InteractWith
+--C_FixLines.main(['/data.txt', '/tmp/out.txt'] as String[])
+
+module realworld.chapter4.C_FixLines where
+
+import realworld.chapter4.A_InteractWith(interactWith)
+import realworld.chapter4.B_SplitLines(splitString)
+
+
+fixLines :: String -> String
+fixLines input = unlines (splitString input)
+
+
+main args = mainWith myFunction where
+    mainWith function = do
+        case args of
+            [input, output] -> interactWith function input output
+            _               -> putStrLn "exactly two arguments needed (inputfile, outputfile)"
+
+    myFunction = fixLines
