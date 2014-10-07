@@ -1,7 +1,7 @@
 Real World Frege
 ================
 
-Examples of the book ["Real World Haskell"](http://book.realworldhaskell.org) in the [Frege](http://wwww.frege-lang.org) programming language.
+Examples of the book ["Real World Haskell"](http://book.realworldhaskell.org) in the [Frege](http://www.frege-lang.org) programming language.
 
 You can freely read the book online under
 http://book.realworldhaskell.org
@@ -24,4 +24,4 @@ Contributions can be as small as one single example.
 
 Let's make the world a better place - one commit at a time.
 
-Dierk König
+Dierk KÃ¶nig
