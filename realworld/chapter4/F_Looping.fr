@@ -1,0 +1,29 @@
+module realworld.chapter4.F_Looping where
+
+import realworld.util.Assertions
+
+asInt :: String -> Int
+asInt s = loop 0 (unpacked s)
+
+loop :: Int -> [Char] -> Int
+loop acc [] = acc
+loop acc (c:cs) = loop newAcc cs where   -- acc' works as well but is ugly
+    newAcc = acc * 10 + digitToInt c     -- btw: I find "where" nicer than "let-in"
+
+digitToInt :: Char -> Int                -- this seems to be missing in the standard Prelude
+digitToInt c = ord c - ord '0'           -- but it is quick enough to write anyway.
+
+
+square :: [Double] -> [Double]
+square (x:xs) = x * x : square xs
+square [] = []
+
+mappedSquare xs = map squareOne xs where
+    squareOne x = x * x
+
+
+main _ = do
+    assert (asInt "123")            123     "asInt happy case"
+
+    assert (square [1,2,3])         [1,4,9] "self-made square"
+    assert (mappedSquare [1,2,3])   [1,4,9] "mapped square"
