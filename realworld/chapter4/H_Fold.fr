@@ -8,7 +8,6 @@ cleanSum = fold  (+) 0              -- no warning on this one
 
 base = 65521
 
-
 adlerStep (a, b) x = (newA `mod` base, newB `mod` base) where
     newA = a    + x
     newB = newA + b
@@ -24,5 +23,4 @@ main _ = do
     assert (shortSum [1,2,3])   6           "short  sum"
     assert (cleanSum [1,2,3])   6           "clean  sum"
 
-    -- according to http://en.wikipedia.org/wiki/Adler-32 the value should be 300286872
-    assert (adler32onCs ['a'])  6422626     "adler calling - what is wrong?"
+    assert (adler32onCs (unpacked "Wikipedia"))  300286872  "adler calling"

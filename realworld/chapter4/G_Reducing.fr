@@ -17,7 +17,6 @@ adler32 xs = accuAdler (1,0) xs where
     accuAdler (a,b) _ = (b `bshl` 16) `bor` a
 
 main _ = do
-    assert (mySum [1,2,3])  6           "accumulated sum"
+    assert (mySum [1,2,3])                   6          "accumulated sum"
 
-    -- according to http://en.wikipedia.org/wiki/Adler-32 the value should be 300286872
-    assert (adler32 ['a'])  6422626     "adler calling - what is wrong?"
+    assert (adler32 (unpacked "Wikipedia"))  300286872  "adler calling"
