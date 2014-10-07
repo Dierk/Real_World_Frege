@@ -1,0 +1,28 @@
+module realworld.chapter4.H_Fold where
+
+import realworld.util.Assertions
+
+mySum xs = foldl (+) 0 xs           -- emits compile warning against stack overflow
+shortSum = foldl (+) 0
+cleanSum = fold  (+) 0              -- no warning on this one
+
+base = 65521
+
+
+adlerStep (a, b) x = (newA `mod` base, newB `mod` base) where
+    newA = a    + x
+    newB = newA + b
+
+adler32Foldl xs = (b `bshl` 16) `bor` a where
+    (a, b) = foldl adlerStep (1, 0) xs
+
+adler32onCs cs = adler32Foldl (map cAsInt cs) where
+    cAsInt c = ord c `band` 0xff
+
+main _ = do
+    assert (mySum    [1,2,3])   6           "folded sum"
+    assert (shortSum [1,2,3])   6           "short  sum"
+    assert (cleanSum [1,2,3])   6           "clean  sum"
+
+    -- according to http://en.wikipedia.org/wiki/Adler-32 the value should be 300286872
+    assert (adler32onCs ['a'])  6422626     "adler calling - what is wrong?"
