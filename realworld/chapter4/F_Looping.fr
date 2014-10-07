@@ -21,9 +21,15 @@ square [] = []
 mappedSquare xs = map squareOne xs where
     squareOne x = x * x
 
+oddList (x:xs)
+    | odd x     = x:oddList xs
+    | otherwise = oddList xs
+oddList _ = []
 
 main _ = do
     assert (asInt "123")            123     "asInt happy case"
 
     assert (square [1,2,3])         [1,4,9] "self-made square"
     assert (mappedSquare [1,2,3])   [1,4,9] "mapped square"
+
+    assert (oddList [1,2,3])        [1,3]   "odd list as a self-made filter"
