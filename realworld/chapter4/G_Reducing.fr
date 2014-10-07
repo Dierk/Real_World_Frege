@@ -1,0 +1,23 @@
+module realworld.chapter4.G_Reducing where
+
+import realworld.util.Assertions
+
+mySum xs = accuSum 0 xs where                   -- I prefer to have only one indent for "where"
+    accuSum acc (y:ys) = accuSum (acc + y) ys   -- I prefer to not use shadowed references *shiver*
+    accuSum acc _      = acc                    -- I think "helper" is a particularly bad name
+
+
+base = 65521
+
+adler32 xs = accuAdler (1,0) xs where
+    accuAdler (a,b) (y:ys) =
+        let newA = (a + (ord y `band` 0xff)) `mod` base
+            newB = (newA + b) `mod` base
+        in  accuAdler (newA, newB) ys
+    accuAdler (a,b) _ = (b `bshl` 16) `bor` a
+
+main _ = do
+    assert (mySum [1,2,3])  6           "accumulated sum"
+
+    -- according to http://en.wikipedia.org/wiki/Adler-32 the value should be 300286872
+    assert (adler32 ['a'])  6422626     "adler calling - what is wrong?"
