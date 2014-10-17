@@ -1,0 +1,5 @@
+module realworld.experiments.ExampleTests where
+
+test_that_is_expected_to_pass  = 1 == 1
+
+test_that_is_expected_to_fail  = 1 == 2
