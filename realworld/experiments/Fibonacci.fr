@@ -2,5 +2,38 @@ module realworld.experiments.Fibonacci where
 
 fib = 0 : 1 : zipWith (+) fib (tail fib)
 
-main _ = do
-         println (take 60 fib)
+fibn x
+   | x < 0      = Left  ("no fibn for negative numbers")
+   | x > 10_000 = Left  ("no fibn "++ show x ++ " since it exceeds the upper limit of 10_000")
+   | otherwise  = Right (fib !! x)
+
+
+import Test.QuickCheck  -- infile unit testing
+
+invariant n = do
+    f2 <- fibn (n+2)
+    f1 <- fibn (n+1)
+    f0 <- fibn n
+    return (f2 == f1 + f0)
+
+assert n = case invariant n of
+    Left  _ -> true
+    Right b -> b
+
+-- good cases
+
+fib_8        = once ( [0, 1, 1, 2, 3, 5, 8, 13] == take 8 fib )
+
+fib_0        = once $ assert 0
+fib_1        = once $ assert 1
+fib_200      = once $ assert 200
+fib_10_000   = once $ assert 10_000
+
+-- bad cases
+
+fib_negative = once $ fibn (-1)   == Left ("no fibn for negative numbers")
+fib_too_big  = once $ fibn 10_001 == Left ("no fibn 10001 since it exceeds the upper limit of 10_000")
+
+-- arbitrary mixed cases
+
+fib_feature = property assert
