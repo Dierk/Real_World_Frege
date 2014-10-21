@@ -2,10 +2,10 @@ module realworld.experiments.Fibonacci where
 
 fib = 0 : 1 : zipWith (+) fib (tail fib)
 
-fibn x
-   | x < 0      = Left  ("no fibn for negative numbers")
-   | x > 10_000 = Left  ("no fibn "++ show x ++ " since it exceeds the upper limit of 10_000")
-   | otherwise  = Right (fib !! x)
+fibn n
+   | n < 0      = Left  ("no fibn for negative numbers")
+   | n > 10_000 = Left  ("no fibn "++ show n ++ " since it exceeds the upper limit of 10_000")
+   | otherwise  = Right (fib !! n)
 
 
 import Test.QuickCheck  -- infile unit testing
