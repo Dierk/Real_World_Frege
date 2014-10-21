@@ -63,6 +63,14 @@ task compileFrege(/*depends:installFrege,*/ type:JavaExec) {
     main = "frege.compiler.Main"
 }
 
+task compileFregeSingleQualified(/*depends:installFrege,*/ type:JavaExec) {
+    executable = java7_exe // must be java 7 for compilation
+    jvmArgs = ["-Xss1m"]
+    args = ["-inline", "-d", frege_build_dir.path, "-make", "-sp", frege_src_dir.absolutePath, path_ending]
+    classpath = files(frege_jar)
+    main = "frege.compiler.Main"
+}
+
 task runFrege(/*depends:compileFrege,*/ type:JavaExec) {
     jvmArgs = ["-Xss1m"]
     classpath = files(frege_jar, frege_build_dir)
