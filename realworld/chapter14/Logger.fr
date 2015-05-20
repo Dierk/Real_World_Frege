@@ -1,0 +1,45 @@
+module realworld.chapter14.Logger where
+
+import realworld.util.Assertions(assert)
+
+type Log = [String]
+
+data Logger a = Logger {
+    logger :: (a, Log)
+}
+
+record :: String -> Logger ()
+record s = Logger ((), [s])
+
+escape :: Logger a -> (a, Log)
+escape (Logger (l, r)) = (l, r)
+
+instance Monad Logger where
+    (>>=) m f = let (a, w) = Logger.logger m
+                    n = f a
+                    (b, x) = Logger.logger n
+              in Logger (b, w ++ x)
+    return a = Logger (a, [])
+
+times10 :: (Num a) => a -> Logger a
+times10 x = do
+    record "times10 called"
+    return (x * 10)
+
+plus2 :: (Num a) => a -> Logger a
+plus2 x = do
+    record "plus2 called"
+    return (x + 2)
+
+plus2times10 :: (Num a) => a -> Logger a
+plus2times10 x = do
+    y <- plus2 x
+    z <- times10 y
+    return z
+
+--------------------------------------------------------------------------------
+
+main _ = do
+    let result = escape $ plus2times10 40
+    assert result (420, ["plus2 called", "times10 called"]) "monadic function composition"
+    println $ show $ result
