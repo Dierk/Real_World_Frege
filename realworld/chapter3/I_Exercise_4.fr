@@ -1,0 +1,13 @@
+module realworld.chapter3.I_Exercise_4 where
+
+-- Turn a list into a palindrome
+
+import realworld.util.Assertions(assert)
+
+palindrome :: [a] -> [a]
+palindrome []     = []
+palindrome (x:xs) = [x] ++ palindrome xs ++ [x]
+
+main _ = do
+    assert (palindrome [1,2,3]) [1,2,3,3,2,1]  "example list palindrome"
+    assert (palindrome [])      ([]::[()])     "empty list palindrome" -- Requires explicit type declaration
