@@ -8,6 +8,16 @@ palindrome :: [a] -> [a]
 palindrome []     = []
 palindrome (x:xs) = [x] ++ palindrome xs ++ [x]
 
+-- A simple, non-recursive alternative
+palindrome' :: [a] -> [a]
+palindrome' [] = []
+palindrome' xs = xs ++ reverse xs
+
 main _ = do
-    assert (palindrome [1,2,3]) [1,2,3,3,2,1]  "example list palindrome"
-    assert (palindrome [])      ([]::[()])     "empty list palindrome" -- Requires explicit type declaration
+    let typedEmptyList = [] :: [()] -- explicit type declaration is required in Frege
+
+    assert (palindrome  [1,2,3]) [1,2,3,3,2,1]  "example list palindrome (recursive)"
+    assert (palindrome  [])      typedEmptyList "empty list palindrome (recursive)"
+
+    assert (palindrome' [1,2,3]) [1,2,3,3,2,1]  "example list palindrome (non-recursive)"
+    assert (palindrome' [])      typedEmptyList "empty list palindrome (non-recursive)"
