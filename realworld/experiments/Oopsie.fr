@@ -1,77 +1,66 @@
 module realworld.experiments.Oopsie where
 
 import System.Random
-import Data.Char
+import Data.Char  -- no longer needed in Frege version 3.23+
 
--- |
--- | Oopsie is a very simple single dice game:
--- |
--- | You are allowed to roll the dice as many times as you like. As long
--- | as you don't roll a 3, all points are summed up and you can continue.
--- | If however you roll a 3, you get a total of 0 ("Oopsie").
--- |
--- | Try maximizing a grand total over 3 rounds.
--- |
+---
+--- Oopsie is a very simple single dice game:
+---
+--- You are allowed to roll the dice as many times as you like. As long
+--- as you don't roll a 3, all points are summed up and you can continue.
+--- If however you roll a 3, you get a total of 0 ("Oopsie").
+---
+--- Try maximizing a grand total over 3 rounds.
+---
 
-main _ =  playOopsie
+main _ =  do
+    totals <- sequence $ map newRound [1,2,3]
+    println $ "\nTOTALS " ++ show totals ++ " = " ++ show (sum totals)
 
-playOopsie :: IO ()
-playOopsie = do
-    total <- play 0 0
-    putStrLn ("\n=============")
-    putStrLn ("TOTAL " ++ (show $ total))
-    putStrLn ("=============\n")
-
-play :: Int -> Int -> IO Int
-play round total
-    -- | traceLn "in play" = return 0
-    | round >= 3     = return total
-    | otherwise      = do
-        putStrLn ("\n-------------")
-        putStrLn ("Round " ++ show (round + 1))
-        putStrLn ("-------------\n")
-        putStrLn ("Grand Total: " ++ show total)
-        roundTotal <- playRound 0
-        play (round + 1) (total + roundTotal)
+newRound n = do
+    println $ "\nRound " ++ show n ++ ":"
+    playRound 0
 
 playRound :: Int -> IO Int
 playRound total = do
-    putStrLn ("Round Total: " ++ show total)
-    print   ("\nDare rolling a dice (Y) or take home (ANY OTHER KEY)? ")
-    -- enforce display of print (in contrast to 'printLn')
-    stdout.flush
-    char <- getChar
-     -- consume newline
-    getChar
-    case char of
-        'y'       -> do
-            roll <- rollDice
-            print roll
-            case roll of
-                Count count -> playRound (total + count)
-                Oopsie -> return 0
-        otherwise -> return total
+    roll <- rollDice
+    println roll
+    nextAction total roll
 
-data Round = Ongoing Int | Done
-data Roll = Count Int | Oopsie
+nextAction :: Int -> Roll -> IO Int
+nextAction _      Oopsie       = return 0
+nextAction total (Face number) = do
+    win = total + number
+    roundEnd <- isTakeHome win
+    if   roundEnd
+    then return win
+    else playRound win
+
+isTakeHome total = do
+    println $ "Round total so far: " ++ show total
+    print "Dare rolling a dice (Y) or take home (ANY OTHER KEY)? " >> stdout.flush
+    char <- readChar
+    return (char != 'Y' && char != 'y')
+
+data Roll = Face Int | Oopsie
 instance Show Roll where
-    show (Count count) =
-        "\n" ++
+    show (Face number) =
         "\n       ---" ++
-        "\n      | " ++ show count ++ " |" ++
-        "\n       ---" ++
-        "\n"
+        "\n      | " ++ show number ++ " |" ++
+        "\n       ---"
     show Oopsie        =
-        "\n" ++
         "\n       ------------ " ++
         "\n      | ! OOPSIE ! |" ++
-        "\n       ------------ " ++
-        "\n"
-
+        "\n       ------------ "
 
 rollDice :: IO Roll
 rollDice = do
     number <- randomRIO (1, 6) :: IO Int
-    case number of
-        3         -> do return Oopsie
-        otherwise -> do return $ Count number
+    if number == 3
+    then return Oopsie
+    else return (Face number)
+
+readChar = do
+    char <- getChar -- needs Enter key to flush input
+    getChar         -- read over line feed
+    return char
