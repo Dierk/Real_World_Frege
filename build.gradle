@@ -1,105 +1,20 @@
 /**
-    Making the Frege language available. Compiler and Runtime is all in one jar.
-    Note: assumed to be run from the dir where this file lives in.
     Start from the command line as:
-        gradle compileFrege -Pfrege_file=<relative file path>
-    or
-        gradle runFrege -Pfrege_file=<relative file path>
-
-    todo: make proper Tasks for input/output optimization
-    todo: make a gradlew
-
-    @author Dierk Koenig
+        gradle compileFrege
 */
 
-// settings to adapt
-
-def frege_version   = '3.21.500'
-def qualifier       = 'g88270a0'
-def frege_jar       = file(System.properties.'user.home'+"/.frege/home/frege-${frege_version}.jar")
-
-// scripting jar
-// https://github.com/Frege/frege-scripting/releases/download/1.0.0/jfrege-script-engine-1.0.0.zip
-
-def frege_src_dir   = file('realworld')
-def frege_build_dir = file('../../build')
-
-def java7_exe       = '/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/bin/java'
-
-
-// it is unlikely that you need to change the below
-
-def path_ending = ".fr"
-if (project.hasProperty('frege_file')) {
-    path_ending = frege_file
-} else {
-    println "using selector '$path_ending'. To be more specific use -Pfrege_file=..."
+plugins {
+  id "org.frege-lang" version "0.5"
 }
 
-task installFrege(type: Download) {
-    sourceUrl = "https://github.com/Frege/frege/releases/download/$frege_version/frege$frege_version-${qualifier}.jar"
-    target    = frege_jar
+apply plugin: 'org.frege-lang'
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
-task compileFrege(/*depends:installFrege,*/ type:JavaExec) {
-    executable = java7_exe // must be java 7 for compilation
-    jvmArgs = ["-Xss1m"]
-    args = ["-inline", "-d", frege_build_dir.path, "-inline", "-make", "-sp", frege_src_dir.absolutePath]
-    frege_src_dir.eachFileRecurse { File fregeFile ->
-        if (fregeFile.file && fregeFile.path.endsWith(path_ending)) {
-            // unless there is newer java file of the same name in the build dir
-            File javaFile = null
-            def target = fregeFile.name - ".fr" + ".java"
-            frege_build_dir.eachFileRecurse {jf->
-                if (jf.file && jf.name == target) {
-                    javaFile = jf
-                    return;
-                }
-            }
-            if (javaFile.lastModified() < fregeFile.lastModified() ) args += fregeFile.path
-        }
-    }
-    classpath = files(frege_jar)
-    main = "frege.compiler.Main"
-}
-
-task compileFregeSingleQualified(/*depends:installFrege,*/ type:JavaExec) {
-    executable = java7_exe // must be java 7 for compilation
-    jvmArgs = ["-Xss1m"]
-    args = ["-inline", "-d", frege_build_dir.path, "-make", "-sp", frege_src_dir.absolutePath, path_ending]
-    classpath = files(frege_jar)
-    main = "frege.compiler.Main"
-}
-
-task runFrege(/*depends:compileFrege,*/ type:JavaExec) {
-    jvmArgs = ["-Xss1m"]
-    classpath = files(frege_jar, frege_build_dir)
-    main = getFQName(frege_src_dir, frege_file)
-}
-
-task runQuickCheck(/*depends:compileFrege,*/ type:JavaExec) {
-    jvmArgs = ["-Xss1m"]
-    args    = [ getFQName(frege_src_dir, frege_file) ]
-    classpath = files(frege_jar, frege_build_dir)
-    main = "frege.tools.Quick"
-}
-
-// implementation details
-
-String getFQName(File sourceFileDir, String sourceFilePath) { // from the file path make a fully qualified class name
-    String basePath = sourceFileDir.canonicalPath + "/"
-    return (sourceFilePath - basePath - ".fr").replaceAll("/",".")
-}
-
-class Download extends DefaultTask {
-    @Input
-    String sourceUrl
-
-    @OutputFile
-    File target
-
-    @TaskAction
-    void download() {
-       ant.get(src: sourceUrl, dest: target)
-    }
+dependencies {
+    compile "org.frege-lang:frege:3.23.401-g7c45277"
 }

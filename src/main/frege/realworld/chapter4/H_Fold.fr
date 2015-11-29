@@ -1,6 +1,7 @@
 module realworld.chapter4.H_Fold where
 
 import realworld.util.Assertions
+import Data.Bits
 
 mySum xs = foldl (+) 0 xs           -- emits compile warning against stack overflow
 shortSum = foldl (+) 0
@@ -12,11 +13,11 @@ adlerStep (a, b) x = (newA `mod` base, newB `mod` base) where
     newA = a    + x
     newB = newA + b
 
-adler32Foldl xs = (b `bshl` 16) `bor` a where
+adler32Foldl xs = (b `shiftL` 16) .|. a where
     (a, b) = foldl adlerStep (1, 0) xs
 
 adler32onCs cs = adler32Foldl (map cAsInt cs) where
-    cAsInt c = ord c `band` 0xff
+    cAsInt c = ord c .&. 0xff
 
 main _ = do
     assert (mySum    [1,2,3])   6           "folded sum"

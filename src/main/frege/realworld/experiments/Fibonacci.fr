@@ -1,5 +1,7 @@
 module realworld.experiments.Fibonacci where
 
+import Data.List
+
 fib = 0 : 1 : zipWith (+) fib (tail fib)
 
 fibn n

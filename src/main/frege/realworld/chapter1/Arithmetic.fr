@@ -15,5 +15,5 @@ main _ = do
     println ( 2 + (-3) )
     println ( 3 + (-(13 * 37)) )
     println ( 2 * 3 )
-    println ( 2 *-3 )       -- unlike haskell, this will work!
+    println ( 2 * -3 )       -- unlike haskell, this will work!
     println ( 2 *(-3) )

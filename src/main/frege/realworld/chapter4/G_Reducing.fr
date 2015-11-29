@@ -1,5 +1,6 @@
 module realworld.chapter4.G_Reducing where
 
+import Data.Bits
 import realworld.util.Assertions
 
 mySum xs = accuSum 0 xs where                   -- I prefer to have only one indent for "where"
@@ -11,10 +12,10 @@ base = 65521
 
 adler32 xs = accuAdler (1,0) xs where
     accuAdler (a,b) (y:ys) =
-        let newA = (a + (ord y `band` 0xff)) `mod` base
+        let newA = (a + (ord y .&. 0xff)) `mod` base
             newB = (newA + b) `mod` base
         in  accuAdler (newA, newB) ys
-    accuAdler (a,b) _ = (b `bshl` 16) `bor` a
+    accuAdler (a,b) _ = (b `shiftL` 16) .|. a
 
 main _ = do
     assert (mySum [1,2,3])                   6          "accumulated sum"

@@ -3,7 +3,7 @@ module realworld.chapter1.ValuesAndVariables where
 import frege.prelude.Math(pi, exp, **)
 
 main _ = do
-    println pi
+    println (pi :: Double) -- needs type hint, see http://stackoverflow.com/questions/33946464/problems-with-code-in-the-frege-repl
     -- println ( e ) -- as expected cannot resolve
     let e = exp 1
     println e
