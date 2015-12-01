@@ -16,5 +16,5 @@ main _ = do
     println ( 3 + (-(13 * 37)) )
     println ( 2 * 3 )
     println ( 2 * -3 )      -- unlike haskell, this will work!
---    println ( 2 *-3 )     -- just like haskell, this will fails since the parser is greedy
+--    println ( 2 *-3 )     -- just like haskell, this will fail since the parser is greedy
     println ( 2 *(-3) )
